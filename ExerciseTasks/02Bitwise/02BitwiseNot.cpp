@@ -11,10 +11,10 @@ Take an unsigned integer from console and invert its bits.
 */
 
 int main () {
-    unsigned int a;
+    short unsigned int a;
     cin >> a;
 
-    unsigned int bwNot = ~a;
+    short unsigned int bwNot = ~a;
 
     cout << bwNot;
 }
