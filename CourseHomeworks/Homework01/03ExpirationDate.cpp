@@ -42,17 +42,23 @@ INVALID INPUT CASES:
 */
 
 int main () {
+    // Bit position constant for different elements:
+    const int monthPos = 5;
+    const int yearPos = 9;
+    const int expPos = 18;
+    const int ctrlPos = 31;
+
     const int currentDay = 1, currentMonth = 11, currentYear = 2023;
     const int initialExpYear = 1900;
 
-    unsigned int barCode;
+    uint32_t barCode;
     cin >> barCode;
 
     unsigned int prodDay = barCode & DAY_MASK;
-    unsigned int prodMonth = (barCode & MNTH_MASK) >> 5;
-    unsigned int prodYear = ((barCode & YEAR_MASK) >> 9) + initialExpYear;
-    unsigned int expiryDays = (barCode & EXP_MASK) >> 18;
-    bool controlBit = (barCode & CTRL_MASK) >> 31;
+    unsigned int prodMonth = (barCode & MNTH_MASK) >> monthPos;
+    unsigned int prodYear = ((barCode & YEAR_MASK) >> yearPos) + initialExpYear;
+    unsigned int expiryDays = (barCode & EXP_MASK) >> expPos;
+    bool controlBit = (barCode & CTRL_MASK) >> ctrlPos;
 
     bool validCode = 0;
 
