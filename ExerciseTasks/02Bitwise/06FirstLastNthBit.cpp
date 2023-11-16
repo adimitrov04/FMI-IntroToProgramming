@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#define uint uint32_t
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -11,7 +13,7 @@ Output the first, last, and Nth bit of a given unsigned, 32-bit integer.
 */
 
 int main () {
-    int number, n;
+    uint number, n;
     const int posZero = 1; // 2 to the power of 0
     const int lastPos = 32; // Points to last bit in a 32-bit number
     
