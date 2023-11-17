@@ -41,6 +41,21 @@ INVALID INPUT CASES:
 --------------------------------------------
 */  
 
+bool inRange (int checkVal, int limVal, int initVal = 0) {
+    if (checkVal >= initVal && checkVal <= limVal) {
+        return true;
+    }
+
+    return false;
+}
+
+bool isLeapYear (int year) {
+    if (!(year % 4) && !(!(year % 100) && year % 400))
+        return true;
+    
+    return false;
+}
+
 bool isValidControlBit (int barCode, bool controlBit, int SIZE = 32) {
     int DATA_MASK = (DAY_MASK | MNTH_MASK | YEAR_MASK | EXP_MASK);
     int dataCheckArea = barCode & DATA_MASK;
@@ -60,28 +75,65 @@ bool isValidControlBit (int barCode, bool controlBit, int SIZE = 32) {
     return false;
 }
 
+bool dateIsValid (int prodDay, int prodMonth, int prodYear,
+                  int currentDay, int currentMonth, int currentYear) {
+    // Year check
+    const int startYear = 1900;
+    bool validYear = 0, leapYear = 0;
+    if (!(inRange(prodYear, currentYear, startYear))) {
+        return false;
+    } else {
+        leapYear = isLeapYear(prodYear);
+    }
+
+    // Month check
+    int MAX_MONTH = (prodYear == currentYear) ? currentMonth : 12;
+
+    if (!(inRange(prodMonth, MAX_MONTH, 1)))
+        return false;
+
+    // Day check
+    int MAX_DAY = 31;
+
+    if (prodYear == currentYear && prodMonth == currentMonth) {
+        MAX_DAY = currentDay;
+    } else if (prodMonth == 2) {
+        if (leapYear) {
+            MAX_DAY = 29;
+        } else {
+            MAX_DAY = 28;
+        }
+    } else if ((prodMonth >= 8 && prodMonth % 2) || (prodMonth <= 7 && !(prodMonth % 2))) {
+        MAX_DAY = 30;
+    }
+
+    if (!(inRange(prodDay, MAX_DAY, 1))) {
+        return false;
+    }
+
+    return true;
+}
+
 int main () {
     // Bit position constant for different elements:
     const int monthPos = 5;
     const int yearPos = 9;
     const int expPos = 18;
     const int ctrlPos = 31;
+    const int initialYear = 1900;
 
     const int currentDay = 1, currentMonth = 11, currentYear = 2023;
-    const int initialExpYear = 1900;
 
     uint32_t barCode;
     cin >> barCode;
 
     unsigned int prodDay = barCode & DAY_MASK;
     unsigned int prodMonth = (barCode & MNTH_MASK) >> monthPos;
-    unsigned int prodYear = ((barCode & YEAR_MASK) >> yearPos) + initialExpYear;
+    unsigned int prodYear = ((barCode & YEAR_MASK) >> yearPos) + initialYear;
     unsigned int expiryDays = (barCode & EXP_MASK) >> expPos;
     bool controlBit = (barCode & CTRL_MASK) >> ctrlPos;
 
     bool validCode = 0;
-
-    cout << isValidControlBit(barCode, controlBit) << endl;
-
+    
     return 0;
 }
