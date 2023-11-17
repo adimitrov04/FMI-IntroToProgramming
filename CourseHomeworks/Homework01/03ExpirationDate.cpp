@@ -1,13 +1,15 @@
 #include <iostream>
 #include <cmath>
 
-#define DAY_MASK 0b00000000000000000000000000011111
-#define MNTH_MASK 0b00000000000000000000000111100000
-#define YEAR_MASK 0b00000000000000111111111000000000
-#define EXP_MASK 0b01111111111111100000000000000000
-#define CTRL_MASK 0b10000000000000000000000000000000
-
 using namespace std;
+
+const uint32_t DAY_MASK = 0b00000000000000000000000000011111;
+const uint32_t MNTH_MASK = 0b00000000000000000000000111100000;
+const uint32_t YEAR_MASK = 0b00000000000000111111111000000000;
+const uint32_t EXP_MASK = 0b01111111111111100000000000000000;
+const uint32_t CTRL_MASK = 0b10000000000000000000000000000000;
+
+const int MIN_YEAR = 1900;
 
 /* TASK DESCRIPTION:
 --------------------------------------------
@@ -116,21 +118,17 @@ bool dateIsValid (int prodDay, int prodMonth, int prodYear,
 
 int main () {
     // Bit position constant for different elements:
-    const int monthPos = 5;
-    const int yearPos = 9;
-    const int expPos = 18;
-    const int ctrlPos = 31;
-    const int initialYear = 1900;
-
-    const int currentDay = 1, currentMonth = 11, currentYear = 2023;
+    const int monthPos = 5, yearPos = 9, expPos = 18, ctrlPos = 31;
+    // Current date 01.11.2023
+    const int currDay = 1, currMonth = 11, currYear = 2023;
 
     uint32_t barCode;
     cin >> barCode;
 
     unsigned int prodDay = barCode & DAY_MASK;
     unsigned int prodMonth = (barCode & MNTH_MASK) >> monthPos;
-    unsigned int prodYear = ((barCode & YEAR_MASK) >> yearPos) + initialYear;
-    unsigned int expiryDays = (barCode & EXP_MASK) >> expPos;
+    unsigned int prodYear = ((barCode & YEAR_MASK) >> yearPos) + MIN_YEAR;
+    unsigned int expDays = (barCode & EXP_MASK) >> expPos;
     bool controlBit = (barCode & CTRL_MASK) >> ctrlPos;
 
     bool validCode = 0;
