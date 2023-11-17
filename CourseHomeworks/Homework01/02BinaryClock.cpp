@@ -1,12 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-#define SEC_MASK 0b0000000000000111111
-#define MIN_MASK 0b0000000111111000000
-#define HOUR_DIG_MASK 0b0001111000000000000
-#define HOUR_TNTH_MASK 0b0110000000000000000
-#define FORMAT_MASK 0b1000000000000000000
-
 using namespace std;
 
 /* TASK DESCRIPTION:
@@ -37,7 +31,13 @@ void printLeadingZero (int number) {
 }
 
 int main () {
-    unsigned int inputTime;
+    const uint32_t SEC_MASK = 0b0000000000000111111;
+    const uint32_t MIN_MASK = 0b0000000111111000000;
+    const uint32_t HOUR_DIG_MASK = 0b0001111000000000000;
+    const uint32_t HOUR_TNTH_MASK = 0b0110000000000000000;
+    const uint32_t FORMAT_MASK = 0b1000000000000000000;
+
+    uint32_t inputTime;
     cout << "Enter time number: ";
     cin >> inputTime;
 
@@ -61,7 +61,7 @@ int main () {
         printLeadingZero(MINUTES); cout << ':';
         printLeadingZero(SECONDS); cout << endl;
     } else {
-        cout << "Invalid data" << endl;
+        cerr << "Invalid data" << endl;
     }
 
 
