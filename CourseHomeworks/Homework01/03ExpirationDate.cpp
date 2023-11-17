@@ -39,7 +39,26 @@ INVALID INPUT CASES:
     - Invalid control bit;
     - Production date is after current date (i.e. 01.01.24)
 --------------------------------------------
-*/
+*/  
+
+bool isValidControlBit (int barCode, bool controlBit, int SIZE = 32) {
+    int DATA_MASK = (DAY_MASK | MNTH_MASK | YEAR_MASK | EXP_MASK);
+    int dataCheckArea = barCode & DATA_MASK;
+
+    dataCheckArea = dataCheckArea ^ (dataCheckArea >> (SIZE / 2));
+    dataCheckArea = dataCheckArea ^ (dataCheckArea >> (SIZE / 4));
+    dataCheckArea = dataCheckArea ^ (dataCheckArea >> (SIZE / 8));
+    dataCheckArea = dataCheckArea ^ (dataCheckArea >> (SIZE / 16));
+    dataCheckArea = dataCheckArea ^ (dataCheckArea >> (SIZE / 32));
+
+    bool evenOnesInData = !(dataCheckArea & 1);
+
+    if (controlBit != evenOnesInData) {
+        return true;
+    }
+
+    return false;
+}
 
 int main () {
     // Bit position constant for different elements:
@@ -62,7 +81,7 @@ int main () {
 
     bool validCode = 0;
 
-    // unfinished...
+    cout << isValidControlBit(barCode, controlBit) << endl;
 
     return 0;
 }
