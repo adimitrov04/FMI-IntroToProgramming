@@ -65,7 +65,7 @@ double linearFunc (double slope, double x, double b = 0) {
 }
 
 int main () {
-    short unsigned int zoneID = 0;
+    short unsigned int zoneID = -1;
     // 0 - Outside; 1 - Edge; 2 - Red; 3 - Green; 4 - Pink; 5 - Yellow; 6 - Blue; 7 - Purple; 8 - Grey
 
     //Point definition:
@@ -97,7 +97,7 @@ int main () {
     cout << "Enter y: ";
     cin >> yU;
 
-    if (isBetween(yU, yJ, yQ, 1) && isNearEnough(xU, xO)){
+    if (isBetween(yU, yJ, yQ, 1) && isNearEnough(xU, xO)) {
         zoneID = 1; // Point lays on the segment QJ.
     } else if (isNearEnough(distance(xO, yO, xU, yU), rad)) {
         zoneID = 1; // Point lays on circle.
@@ -138,7 +138,7 @@ int main () {
         zoneID = 1; // Point lays on HE.
     } else if (isNearEnough(yU, yG) && isBetween(xU, xG, xP, 1)) {
         zoneID = 1; // Point lays on GP.
-    } else if (isBetween(xU, xH, xE) && isBetween(yU, yH, yG)) {
+    } else if (isBetween(xU, xH, xE) && isBetween(yU, yG, yH)) {
         zoneID = 8; // Point is in grey zone.
     } else {
         zoneID = 0; // Point does not lay anywhere.
@@ -171,6 +171,9 @@ int main () {
         
         case 8:
         cout << "Grey" << endl; break;
+
+        default:
+        cerr << "ERROR!" << endl; break;
     }
 
     return 0;
