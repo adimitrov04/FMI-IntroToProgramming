@@ -58,6 +58,28 @@ int binarySearch (int arr[], int size, int search)
     return -1;
 }
 
+/**
+ * Take two arrays as input and determine whether
+ * 
+ * @param sizeMain Size of the main array (sizeMain should be >= to subSize)
+ * although reversing the order wont break the function.
+ * 
+ * @return true when all elements within subArr are found inside mainArr;
+ * false if otherwise
+ */
+bool isSubset (int mainArr[], int mainSize, int subArr[], int subSize)
+{
+    for (int i  = 0; i < subSize; i++)
+    {
+        if (binarySearch(mainArr, mainSize, subArr[i]) == -1)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int main ()
 {
     int arrA[MAX_SIZE] = {0,}, sizeA;
