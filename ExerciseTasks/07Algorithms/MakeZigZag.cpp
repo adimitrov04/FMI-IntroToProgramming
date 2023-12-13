@@ -3,6 +3,16 @@
 
 using std::endl;
 
+/**
+ * ------------------------------ Make ZigZag ------------------------------
+ * Read an array and determine whether or not it is "ZigZag" - i.e.
+ * whether each element of the array is strictly larger or smaller than its
+ * neighbouring elements.
+ * 
+ * Also determine whether or not the given array CAN be made ZigZag, and if
+ * possible - make it ZigZag.
+ */
+
 const int MAX_SIZE = 5000;
 
 // ---------- FUNCTIONS ----------
@@ -25,7 +35,7 @@ void printArray (const int arr[], int size)
 
 int isZigZag (const int arr[], int size)
 {
-
+    
 }
 
 void makeZigZag ()
