@@ -13,7 +13,7 @@ using std::endl;
  * possible - make it ZigZag.
  */
 
-const int MAX_SIZE = 5000;
+const int MAX_SIZE = 5000; // Global max. array size
 
 // ---------- FUNCTIONS ----------
 
@@ -35,7 +35,26 @@ void printArray (const int arr[], int size)
 
 int isZigZag (const int arr[], int size)
 {
+    int zigZag_status = 1;
+
+    for (int i = 1; i < (size - 1); i++)
+    {
+        if ((arr[i] == arr[i + 1]) || (arr[i] == arr[i - 1]))
+        {
+            zigZag_status = 0;
+            break;
+        }
+        else if ((arr[i] > arr[i - 1] && arr[i] < arr[i + 1]) ||
+                 (arr[i] < arr[i - 1] && arr[i] > arr[i + 1]))
+        {
+            zigZag_status = 0;
+            break;
+        }
+    }
+
     
+
+    return zigZag_status;
 }
 
 void makeZigZag ()
@@ -60,4 +79,6 @@ int main ()
     }
 
     readArray(arr, size);
+
+    std::cout << isZigZag(arr, size) << endl;
 }
