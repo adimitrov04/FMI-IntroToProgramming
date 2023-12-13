@@ -3,7 +3,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-const int MAX_SIZE = 1000;
+const int MAX_SIZE = 1000; // Global maximum size for an array
+
+// Array IO functions
 
 void readArray (int arr[], int size)
 {
@@ -29,6 +31,21 @@ void chPrintArray (char arr[], int size)
     }
 }
 
+// Array analysis functions
+
+int sumOddElements (int arr[], int size)
+{
+    int sum = 0;
+
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] % 2 != 0)
+            sum += arr[i];
+    }
+
+    return sum;
+}
+
 int findLast (int arr[], int size, int search)
 {
     for (int i = size - 1; i >= 0; i--)
@@ -40,6 +57,7 @@ int findLast (int arr[], int size, int search)
     return -1;
 }
 
+// Array modification functions
 void insertElement (int arr[], int& inOutSize, int insert, int index)
 {
     if (inOutSize == MAX_SIZE)
@@ -103,19 +121,6 @@ void makeStrong (char weak[], int weakSize, char strong[], int& strongSize)
         chInsertElement(strong, strongSize, currNum, i);
         currNum++;
     }
-}
-
-int sumOddElements (int arr[], int size)
-{
-    int sum = 0;
-
-    for (int i = 0; i < size; i++)
-    {
-        if (arr[i] % 2 != 0)
-            sum += arr[i];
-    }
-
-    return sum;
 }
 
 // --------- TASKS ----------
