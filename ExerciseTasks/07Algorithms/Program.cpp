@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+
 using std::cin;
 using std::cout;
 using std::endl;
@@ -89,11 +91,6 @@ int findLast (const int arr[], int size, int search)
     }
 
     return -1;
-}
-
-int countRepetitions (const int arr[], int size, )
-{
-
 }
 
 // ------- Array modification functions -------
@@ -384,8 +381,89 @@ void SortByRepetitions05 ()
 void guessMyNumber06 ()
 {
     int intervalStart, intervalEnd;
-    cout << "Interval: "; cin >> intervalStart;
-    cout << " to "; cin >> intervalEnd;
+    cout << "Interval: ";
+
+    cin >> intervalStart; cout << "to "; cin >> intervalEnd;
+    
+    // Input validation
+    if (intervalStart == intervalEnd)
+    {
+        cout << "Your number is " << intervalStart << '!' << endl;
+        return ;
+    }
+
+    while (intervalStart > intervalEnd)
+    {
+        intervalStart = 0; intervalEnd = 0;
+        cout << "Invalid interval! Please try again:" << endl;
+        cin >> intervalStart; cout << "to "; cin >> intervalEnd;
+    }
+
+    int guess;
+    bool isCorrect = false;
+    char response = 0;
+
+    while (isCorrect == false)
+    {
+        cout << intervalStart << ',' << intervalEnd << endl;
+        guess = intervalStart + (std::rand() % (intervalEnd - intervalStart + 1));
+        // Random number within the current interval
+        // TO DO: improve guessing algorithm
+
+        cout << "Is your number " << guess << "? | [Y] or [N]" << endl;
+        
+        cin >> response;
+        /*
+        while (response != 'Y' || response != 'y' || response != 'N' || response != 'n')
+        {
+            response = 0;
+            cout << "...what?" << endl;
+            cin >> response;
+        }
+        */
+
+        if (response == 'Y' || response == 'y')
+        {
+            cout << "I win!" << endl;
+            isCorrect = true;
+        }
+        else
+        {
+            response = 0;
+            cout << "Is your number higher or lower than " << guess << "? | [H] or [L]" << endl;
+
+            cin >> response;
+            /*
+            while ((response != 'H' || response != 'h') || (response != 'L' || response != 'l'))
+            {
+                response = 0;
+                cout << "...what?" << endl;
+                cin >> response;
+            }
+            */
+
+            if (response == 'H' || response == 'h')
+            {
+                if (guess == intervalEnd)
+                {
+                    cout << "Liar!" << endl;
+                    return ;
+                }
+
+                intervalStart = guess + 1;
+            }
+            else if (response == 'L' || response == 'l')
+            {
+                if (guess == intervalStart)
+                {
+                    cout << "Liar!" << endl;
+                    return ;
+                }
+
+                intervalEnd = guess - 1;
+            }
+        }
+    }
 }
 
 int main()
