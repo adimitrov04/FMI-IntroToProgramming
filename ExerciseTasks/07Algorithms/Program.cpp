@@ -5,7 +5,7 @@ using std::endl;
 
 const int MAX_SIZE = 1000; // Global maximum size for an array
 
-// Array IO functions
+// ------- Array IO functions -------
 
 void readArray (int arr[], int size)
 {
@@ -31,7 +31,7 @@ void printArray (const char arr[], int size)
     }
 }
 
-// Array analysis functions
+// ------- Array analysis functions -------
 
 /**
  * Check if an array is sorted
@@ -43,10 +43,28 @@ void printArray (const char arr[], int size)
  */
 bool isSorted (const int arr[], int size, bool direction = 1)
 {
-    for (int i = 0; i < size; i++)
+    if (direction == 1)
     {
-
+        for (int i = 0; i < size - 1; i++)
+        {
+            if (arr[i] > arr[i + 1])
+            {
+                return false;
+            }
+        }
     }
+    else
+    {
+        for (int i = 0; i < size - 1; i++)
+        {
+            if (arr[i] < arr[i + 1])
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 int sumOddElements (const int arr[], int size)
@@ -73,7 +91,8 @@ int findLast (const int arr[], int size, int search)
     return -1;
 }
 
-// Array modification functions
+// ------- Array modification functions -------
+
 void insertElement (int arr[], int& inOutSize, int insert, int index)
 {
     if (inOutSize == MAX_SIZE)
@@ -145,6 +164,52 @@ void makeStrong (char weak[], int weakSize, char strong[], int& strongSize)
         insertElement(strong, strongSize, currNum, i);
         currNum++;
     }
+}
+
+/**
+ * Move an element of an array from one position within that array to another,
+ * wihtout changing the order of the other elements.
+ * 
+ * @param elem The index of the element to move
+ * @param moveTo The index to move 'elem' to
+*/
+void moveElement (int arr[], int size, int elem, int moveTo)
+{
+    // Validate input
+    if (moveTo < 0 || moveTo >= size)
+    {
+        std::cerr << "Cannot move element outside of array." << endl;
+        return ;
+    }
+
+    if (elem == moveTo)
+        return ;
+
+    // Shift elements between old and new position
+    int moveValue = arr[elem];
+    if (elem < moveTo)
+    {
+        for (int i = elem; i < moveTo; i++)
+        {
+            arr[i] = arr[i + 1];
+        }
+    }
+    else
+    {
+        for (int i = elem; i > moveTo; i++)
+        {
+            arr[i] = arr[i - 1];
+        }
+    }
+
+    // Place value in new position
+    arr[moveTo] = moveValue;
+}
+
+void quicksort (int arr[], int size)
+{
+    int pivotIndex = (size - 1), pivotVal = arr[pivotIndex];
+
 }
 
 // --------- TASKS ----------
@@ -232,9 +297,27 @@ void SumOfOddAfterEven03 ()
     printArray(arr, size);
 }
 
+void sortDescending04 ()
+{
+    int arr[MAX_SIZE] = {0,};
+    int size; cin >> size;
+
+    moveElement(arr, size, 0, size - 1);
+}
+
+void sortByRepetitions05 ()
+{
+
+}
+
+void guessMyNumber06 ()
+{
+
+}
+
 int main()
 {
-    StrongPass02();
+    
 
     return 0;
 }
