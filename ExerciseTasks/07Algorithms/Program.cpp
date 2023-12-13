@@ -91,6 +91,11 @@ int findLast (const int arr[], int size, int search)
     return -1;
 }
 
+int countRepetitions (const int arr[], int size, )
+{
+
+}
+
 // ------- Array modification functions -------
 
 void insertElement (int arr[], int& inOutSize, int insert, int index)
@@ -337,7 +342,7 @@ void SumOfOddAfterEven03 ()
 /**
  * Read an array and sort it in descending order.
  */
-void sortDescending04 ()
+void SortDescending04 ()
 {
     int arr[MAX_SIZE] = {0,};
     int size;
@@ -356,19 +361,73 @@ void sortDescending04 ()
     printArray(arr, size); cout << endl;
 }
 
-void sortByRepetitions05 ()
+/**
+ * Read and array and sort it by the elements by the number of times each element
+ * is repeated inside the array.
+ */
+void SortByRepetitions05 ()
 {
+    int arr[MAX_SIZE] = {0,};
+    int size = 0;
 
+    cin >> size;
+    while (size > MAX_SIZE)
+    {
+
+    }
 }
 
+/**
+ * Given an interval, guess the number the user is thinking of. After each step,
+ * ask the user whether the number is higher or lower than the guess. 
+ */
 void guessMyNumber06 ()
 {
-
+    int intervalStart, intervalEnd;
+    cout << "Interval: "; cin >> intervalStart;
+    cout << " to "; cin >> intervalEnd;
 }
 
 int main()
 {
-    sortByRepetitions05();
+    cout << "Homework 07: Algorithms" << endl;
+    cout << "----------------------------------" << endl;
+    
+    cout << "Task 01: Find Last;" << endl;
+    cout << "Task 02: Strong Pass;" << endl;
+    cout << "Task 03: Sum of Odd After Even;" << endl;
+    cout << "Task 04: Sort Descending;" << endl;
+    cout << "Task 05: Sort by Repetitions;" << endl;
+    cout << "Task 06: Guess my Number" << endl;
+    cout << "Task 07: Find Longest Streak;" << endl;
+    cout << "Task 08: Merge & Sort;" << endl;
+    cout << "Task 09: Binary Search;" << endl;
+    cout << "Task 10: Delete & Shift;" << endl;
+    cout << "Task 11: Find Sum Pair;" << endl;
+    cout << "Task 12: Convert to Decimal;" << endl;
+    cout << "Task 13: Pyramid Sort;" << endl << endl;
+
+    cout << "Please select task number to run: " << endl;
+    int task; cin >> task;
+
+    while (task < 1 || task > 13)
+    {
+        task = 0;
+        std::cerr << "Task number not found. Please enter valid task number: ";
+        cin >> task;
+    }
+
+    switch (task)
+    {
+        case 1: FindLast_01(); break;
+        case 2: StrongPass02(); break;
+        case 3: SumOfOddAfterEven03(); break;
+        case 4: SortDescending04(); break;
+        case 5: SortByRepetitions05(); break;
+        case 6: guessMyNumber06(); break;
+
+        default: std::cout << "Task unavailable. Sorry!" << endl;
+    }
 
     return 0;
 }
