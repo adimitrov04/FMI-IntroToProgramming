@@ -15,7 +15,7 @@ void readArray (int arr[], int size)
     }
 }
 
-void printArray (int arr[], int size)
+void printArray (const int arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
@@ -23,7 +23,7 @@ void printArray (int arr[], int size)
     }
 }
 
-void chPrintArray (char arr[], int size)
+void chPrintArray (const char arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
@@ -33,7 +33,7 @@ void chPrintArray (char arr[], int size)
 
 // Array analysis functions
 
-int sumOddElements (int arr[], int size)
+int sumOddElements (const int arr[], int size)
 {
     int sum = 0;
 
@@ -46,7 +46,7 @@ int sumOddElements (int arr[], int size)
     return sum;
 }
 
-int findLast (int arr[], int size, int search)
+int findLast (const int arr[], int size, int search)
 {
     for (int i = size - 1; i >= 0; i--)
     {
@@ -100,7 +100,7 @@ void chInsertElement (char arr[], int& inOutSize, char insert, int index)
  * @param size The size of the original information
  * @param copy The array to copy information into
  */
-void chCopyArray (char source[], int size, char copy[], int& copySize)
+void chCopyArray (const char source[], int size, char copy[], int& copySize)
 {
     for (int i = 0; i < size; i++)
     {
