@@ -206,10 +206,43 @@ void moveElement (int arr[], int size, int elem, int moveTo)
     arr[moveTo] = moveValue;
 }
 
-void quicksort (int arr[], int size)
+/**
+ * Quicksort algorithm.
+ * 
+ * @param direction 1 - ascending (default); 0 - descending
+ */
+void quicksort (int arr[], int size, int lowerLim = 0, bool direction = 1)
 {
-    int pivotIndex = (size - 1), pivotVal = arr[pivotIndex];
+    if ((size - lowerLim) <= 1)
+        return ;
 
+    int pivot = (size - 1);
+
+    if (direction == 1) // Sort ascending
+    {
+        for (int i = pivot - 1; i >= lowerLim; i--)
+        {
+            if (arr[i] > arr[pivot])
+            {
+                moveElement(arr, size, i, pivot);
+                pivot--;
+            }
+        }
+    }
+    else
+    {
+        for (int i = pivot - 1; i >= lowerLim; i--)
+        {
+            if (arr[i] < arr[pivot])
+            {
+                moveElement(arr, size, i, pivot);
+                pivot--;
+            }
+        }
+    }
+
+    quicksort(arr, size, pivot + 1, direction);
+    quicksort(arr, pivot, 0, direction);
 }
 
 // --------- TASKS ----------
@@ -223,12 +256,14 @@ void quicksort (int arr[], int size)
 void FindLast_01 ()
 {
     int arr[MAX_SIZE] = {0,};
-    int size; cin >> size;
+    int size;
 
-    if (size > MAX_SIZE)
+    cin >> size;
+    while (size > MAX_SIZE)
     {
-        std::cerr << "Given size too large." << endl;
-        return ;
+        size = 0;
+        std::cerr << "Size is too big, please enter valid size." << endl;
+        cin >> size;
     }
 
     readArray(arr, size);   
@@ -275,12 +310,14 @@ void StrongPass02 ()
 void SumOfOddAfterEven03 ()
 {
     int arr[MAX_SIZE] = {0,};
-    int size; cin >> size;
+    int size;
 
-    if (size > MAX_SIZE)
+    cin >> size;
+    while (size > MAX_SIZE)
     {
-        std::cerr << "Given size too large." << endl;
-        return ;
+        size = 0;
+        std::cerr << "Size is too big, please enter valid size." << endl;
+        cin >> size;
     }
 
     readArray(arr, size);
@@ -297,12 +334,26 @@ void SumOfOddAfterEven03 ()
     printArray(arr, size);
 }
 
+/**
+ * Read an array and sort it in descending order.
+ */
 void sortDescending04 ()
 {
     int arr[MAX_SIZE] = {0,};
-    int size; cin >> size;
+    int size;
+    
+    cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter valid size." << endl;
+        cin >> size;
+    }
 
-    moveElement(arr, size, 0, size - 1);
+    readArray(arr, size);
+
+    quicksort(arr, size, 0, 0);
+    printArray(arr, size); cout << endl;
 }
 
 void sortByRepetitions05 ()
@@ -317,7 +368,7 @@ void guessMyNumber06 ()
 
 int main()
 {
-    
+    sortByRepetitions05();
 
     return 0;
 }
