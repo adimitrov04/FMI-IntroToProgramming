@@ -23,7 +23,7 @@ void printArray (const int arr[], int size)
     }
 }
 
-void chPrintArray (const char arr[], int size)
+void printArray (const char arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
@@ -32,6 +32,22 @@ void chPrintArray (const char arr[], int size)
 }
 
 // Array analysis functions
+
+/**
+ * Check if an array is sorted
+ * 
+ * @param direction The direction of the sort.
+ *                  1 = ascending
+ *                  0 = descending
+ * @return true if the array is sorted according to the given direction
+ */
+bool isSorted (const int arr[], int size, bool direction = 1)
+{
+    for (int i = 0; i < size; i++)
+    {
+
+    }
+}
 
 int sumOddElements (const int arr[], int size)
 {
@@ -76,7 +92,7 @@ void insertElement (int arr[], int& inOutSize, int insert, int index)
     arr[index] = insert;
 }
 
-void chInsertElement (char arr[], int& inOutSize, char insert, int index)
+void insertElement (char arr[], int& inOutSize, char insert, int index)
 {
     if (inOutSize == MAX_SIZE)
     {
@@ -100,11 +116,19 @@ void chInsertElement (char arr[], int& inOutSize, char insert, int index)
  * @param size The size of the original information
  * @param copy The array to copy information into
  */
-void chCopyArray (const char source[], int size, char copy[], int& copySize)
+void copyArray (const int source[], int size, int copy[], int& copySize)
 {
     for (int i = 0; i < size; i++)
     {
-       chInsertElement(copy, copySize, source[i], i); 
+       insertElement(copy, copySize, source[i], i); 
+    }
+}
+
+void copyArray (const char source[], int size, char copy[], int& copySize)
+{
+    for (int i = 0; i < size; i++)
+    {
+       insertElement(copy, copySize, source[i], i); 
     }
 }
 
@@ -113,12 +137,12 @@ void chCopyArray (const char source[], int size, char copy[], int& copySize)
  */
 void makeStrong (char weak[], int weakSize, char strong[], int& strongSize)
 {
-    chCopyArray(weak, weakSize, strong, strongSize);
+    copyArray(weak, weakSize, strong, strongSize);
 
     char currNum = '0';
     for (int i = 1; i <= strongSize; i += 2)
     {
-        chInsertElement(strong, strongSize, currNum, i);
+        insertElement(strong, strongSize, currNum, i);
         currNum++;
     }
 }
@@ -164,17 +188,19 @@ void StrongPass02 ()
     for (int i = 0; i < CHAR_LIMIT; i++)
     {
         cin >> weakPass[i];
-        if (cin.get() == '\n')
-            break;
-
         inputSize++;
+        
+        if (cin.get() == '\n')
+        {
+            break;
+        }
     }
 
     char newPass[CHAR_LIMIT * 2] = {0,};
     int newSize = 0;
 
     makeStrong(weakPass, inputSize, newPass, newSize);
-    chPrintArray(newPass, newSize);
+    printArray(newPass, newSize);
 }
 
 /**
@@ -208,7 +234,7 @@ void SumOfOddAfterEven03 ()
 
 int main()
 {
-    SumOfOddAfterEven03();
+    StrongPass02();
 
     return 0;
 }
