@@ -619,6 +619,43 @@ void findLongestStreak07 ()
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
         std::cin >> size;
     }
+
+    readArray(arr, size);
+
+    int currIndex = 0;
+    int currentStreak = 0, longestStreak = 0;
+
+    // Initialize first streak
+    if (size > 0)
+    {
+        currentStreak = 1;
+        longestStreak = 1;
+    }
+    
+    while (currIndex < (size - 1))
+    {
+        if (arr[currIndex + 1] == arr[currIndex])
+        {
+            currentStreak++;
+        }
+        else
+        {
+            if (currentStreak > longestStreak)
+            {
+                longestStreak = currentStreak;
+            }
+            currentStreak = 1;
+        }
+        
+        currIndex++;
+    }
+
+    if (currentStreak > longestStreak)
+    {
+        longestStreak = currentStreak;
+    }
+
+    std::cout << "Longest streak: " << longestStreak << endl;
 }
 
 int main()
