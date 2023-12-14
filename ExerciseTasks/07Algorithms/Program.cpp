@@ -382,7 +382,7 @@ void FindLast_01 ()
     while (size > MAX_SIZE)
     {
         size = 0;
-        std::cerr << "Size is too big, please enter valid size." << endl;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
         cin >> size;
     }
 
@@ -436,7 +436,7 @@ void SumOfOddAfterEven03 ()
     while (size > MAX_SIZE)
     {
         size = 0;
-        std::cerr << "Size is too big, please enter valid size." << endl;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
         cin >> size;
     }
 
@@ -466,7 +466,7 @@ void SortDescending04 ()
     while (size > MAX_SIZE)
     {
         size = 0;
-        std::cerr << "Size is too big, please enter valid size." << endl;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
         cin >> size;
     }
 
@@ -489,7 +489,7 @@ void SortByRepetitions05 ()
     while (size > MAX_SIZE)
     {
         size = 0;
-        std::cerr << "Size is too big, please enter valid size." << endl;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
         cin >> size;
     }
 
@@ -606,6 +606,23 @@ void guessMyNumber06 ()
     }
 }
 
+/**
+ * Given an array, output the longest streak of repetirions of the same number.
+ */
+void findLongestStreak07 ()
+{
+    int arr[MAX_SIZE] = {0,};
+    int size;
+    
+    cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        cin >> size;
+    }
+}
+
 int main()
 {
     cout << "Homework 07: Algorithms" << endl;
@@ -625,7 +642,7 @@ int main()
     cout << "Task 12: Convert to Decimal;" << endl;
     cout << "Task 13: Pyramid Sort;" << endl << endl;
 
-    cout << "Please select task number to run: " << endl;
+    cout << "Please select task number to run: ";
     int task; cin >> task;
 
     while (task < 1 || task > 13)
@@ -635,6 +652,7 @@ int main()
         cin >> task;
     }
 
+    std::cout << "Starting Task " << task << "..." << endl;
     switch (task)
     {
         case 1: FindLast_01(); break;
@@ -643,6 +661,7 @@ int main()
         case 4: SortDescending04(); break;
         case 5: SortByRepetitions05(); break;
         case 6: guessMyNumber06(); break;
+        case 7: findLongestStreak07(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
