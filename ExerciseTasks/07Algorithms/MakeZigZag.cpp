@@ -69,6 +69,66 @@ bool isZigZag (const int arr[], int size)
 }
 
 /**
+ * Move an element of an array from one position within that array to another,
+ * wihtout changing the order of the other elements.
+ * 
+ * @param elem The index of the element to move
+ * @param moveTo The index to move 'elem' to
+*/
+void moveElement (int arr[], int size, int elem, int moveTo)
+{
+    // Validate input
+    if (moveTo < 0 || moveTo >= size)
+    {
+        std::cerr << "Cannot move element outside of array." << endl;
+        return ;
+    }
+
+    if (elem == moveTo)
+        return ;
+
+    // Shift elements between old and new position
+    int moveValue = arr[elem];
+    if (elem < moveTo)
+    {
+        for (int i = elem; i < moveTo; i++)
+        {
+            arr[i] = arr[i + 1];
+        }
+    }
+    else if (elem > moveTo)
+    {
+        for (int i = elem; i > moveTo; i--)
+        {
+            arr[i] = arr[i - 1];
+        }
+    }
+
+    // Place value in new position
+    arr[moveTo] = moveValue;
+}
+
+void quicksort (int arr[], int size, int lowerLim = 0)
+{
+    if ((size - lowerLim) <= 1)
+        return ;
+
+    int pivot = size - 1;
+
+    for (int i = pivot - 1; i >= lowerLim; i--)
+    {
+        if (arr[i] > arr[pivot])
+        {
+            moveElement(arr, size, i, pivot);
+            pivot--;
+        }
+    }
+
+    quicksort(arr, pivot, 0);
+    quicksort(arr, size, pivot + 1);
+}
+
+/**
  * Attempt to make a non-ZigZag array ZigZag.
  * !! WORKS ONLY IN CASES WHERE ARRAY CONTAINS NO REPETITIONS !!
  * 
@@ -76,7 +136,21 @@ bool isZigZag (const int arr[], int size)
  */
 bool makeZigZag (int arr[], int size)
 {
-    
+    quicksort(arr, size);
+
+    int front = 0, back = size - 1;
+    while (front < back)
+    {
+        moveElement(arr, size, back, front + 1);
+        front += 2;
+    }
+
+    if (isZigZag(arr, size))
+    {
+        return true;
+    }
+
+    return false;
 }
 
 // ---------- MAIN ----------
@@ -97,7 +171,21 @@ int main ()
 
     readArray(arr, size);
 
-    
+    if (isZigZag(arr, size))
+    {
+        std::cout << "Array is ZigZag." << endl;
+        return 0;
+    }
+
+    if (makeZigZag(arr, size) == true)
+    {
+        std::cout << "Converted to ZigZag:" << endl;
+        printArray(arr, size); std::cout << endl;
+    }
+    else
+    {
+        std::cout << "Array cannot be made ZigZag." << endl;
+    }
 
     return 0;
 }
