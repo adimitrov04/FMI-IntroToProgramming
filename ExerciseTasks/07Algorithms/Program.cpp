@@ -56,6 +56,41 @@ int search (const int arr[], int size, int search, int rStart = 0, int rEnd = 0)
     return -1;
 }
 
+int binarySearch (const int arr[], int size, int search)
+{
+    int lowLim = 0, upLim = size - 1;
+    int mid = 0;
+
+    while (lowLim <= upLim)
+    {
+        if (lowLim == upLim)
+        {
+            if (arr[lowLim] == search)
+            {
+                return lowLim;
+            }
+        }
+
+        mid = lowLim + ((upLim - lowLim) / 2);
+        
+        if (arr[mid] == search)
+        {
+            return mid;
+        }
+        
+        if (search > arr[mid])
+        {
+            lowLim = mid + 1;
+        }
+        else
+        {
+            upLim = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
 /**
  * Check if an array is sorted
  * 
@@ -337,7 +372,7 @@ void moveElement (int arr[], int size, int elem, int moveTo)
  * 
  * @param ascending default - true
  */
-void quicksort (int arr[], int size, int lowerLim = 0, bool ascending = 1)
+void quicksort (int arr[], int size, bool ascending = true, int lowerLim = 0)
 {
     if ((size - lowerLim) <= 1)
         return ;
@@ -367,8 +402,8 @@ void quicksort (int arr[], int size, int lowerLim = 0, bool ascending = 1)
         }
     }
 
-    quicksort(arr, size, pivot + 1, ascending);
-    quicksort(arr, pivot, 0, ascending);
+    quicksort(arr, size, ascending, pivot + 1);
+    quicksort(arr, pivot, ascending, 0);
 }
 
 /**
@@ -494,7 +529,7 @@ void SortDescending04 ()
 
     readArray(arr, size);
 
-    quicksort(arr, size, 0, 0);
+    quicksort(arr, size, false);
     printArray(arr, size); std::cout << endl;
 }
 
@@ -721,9 +756,38 @@ void mergeAndSort08 ()
 
     if (mergedSize == 0) return ;
 
-    quicksort(mergedArr, mergedSize, 0, false);
-    
+    quicksort(mergedArr, mergedSize, false);
+
     printArray(mergedArr, mergedSize);
+}
+
+/**
+ * Demonstrate binary search.
+ */
+void binarySearchDemo09 ()
+{
+    int arr[MAX_SIZE] = {0,};
+    int size;
+    
+    std::cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size;
+    }
+
+    readArray(arr, size);
+
+    if (isSorted(arr, size, 1))
+    {
+        int search; std::cin >> search;
+        std::cout << binarySearch(arr, size, search) << endl;
+    }
+    else
+    {
+        std::cerr << "Array is not sorted." << endl;
+    }
 }
 
 int main()
@@ -766,6 +830,7 @@ int main()
         case 6: guessMyNumber06(); break;
         case 7: longestStreak07(); break;
         case 8: mergeAndSort08(); break;
+        case 9: binarySearchDemo09(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
