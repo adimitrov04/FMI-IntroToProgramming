@@ -33,33 +33,50 @@ void printArray (const int arr[], int size)
     }
 }
 
-int isZigZag (const int arr[], int size)
+/**
+ * Copy the contents of one array into another. 
+ */
+void copyArray (const int source[], int size, int copy[])
 {
-    int zigZag_status = 1;
+    for (int i = 0; i < size; i++)
+    {
+        copy[i] = source[i];
+    }
+}
+
+/**
+ * Check if array is ZigZag.
+ */
+bool isZigZag (const int arr[], int size)
+{
+    if (size <= 2)
+        return true;
 
     for (int i = 1; i < (size - 1); i++)
     {
         if ((arr[i] == arr[i + 1]) || (arr[i] == arr[i - 1]))
         {
-            zigZag_status = 0;
-            break;
+            return false;
         }
         else if ((arr[i] > arr[i - 1] && arr[i] < arr[i + 1]) ||
                  (arr[i] < arr[i - 1] && arr[i] > arr[i + 1]))
         {
-            zigZag_status = 0;
-            break;
+            return false;
         }
     }
 
-    
-
-    return zigZag_status;
+    return true;
 }
 
-void makeZigZag ()
+/**
+ * Attempt to make a non-ZigZag array ZigZag.
+ * !! WORKS ONLY IN CASES WHERE ARRAY CONTAINS NO REPETITIONS !!
+ * 
+ * @return false if attempt was not successful
+ */
+bool makeZigZag (int arr[], int size)
 {
-
+    
 }
 
 // ---------- MAIN ----------
@@ -80,5 +97,7 @@ int main ()
 
     readArray(arr, size);
 
-    std::cout << isZigZag(arr, size) << endl;
+    
+
+    return 0;
 }
