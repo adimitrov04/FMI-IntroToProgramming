@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 
-using std::cin;
-using std::cout;
 using std::endl;
 
 const int MAX_SIZE = 1000; // Global maximum size for an array
@@ -13,7 +11,7 @@ void readArray (int arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
-        cin >> arr[i];
+        std::cin >> arr[i];
     }
 }
 
@@ -21,7 +19,7 @@ void printArray (const int arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
-        cout << arr[i] << ' ';
+        std::cout << arr[i] << ' ';
     }
 }
 
@@ -29,7 +27,7 @@ void printArray (const char arr[], int size)
 {
     for (int i = 0; i < size; i++)
     {
-        cout << arr[i];
+        std::cout << arr[i];
     }
 }
 
@@ -378,18 +376,18 @@ void FindLast_01 ()
     int arr[MAX_SIZE] = {0,};
     int size;
 
-    cin >> size;
+    std::cin >> size;
     while (size > MAX_SIZE)
     {
         size = 0;
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
-        cin >> size;
+        std::cin >> size;
     }
 
     readArray(arr, size);   
-    int find; cin >> find;
+    int find; std::cin >> find;
 
-    cout << findLast(arr, size, find) << endl;
+    std::cout << findLast(arr, size, find) << endl;
 }
 
 /**
@@ -401,16 +399,16 @@ void StrongPass02 ()
     const int CHAR_LIMIT = 10;
     char weakPass[CHAR_LIMIT] = {0,};
 
-    cout << "Enter password (Max. 10 letters): ";
+    std::cout << "Enter password (Max. 10 letters): ";
     
     // Read Password
     int inputSize = 0;
     for (int i = 0; i < CHAR_LIMIT; i++)
     {
-        cin >> weakPass[i];
+        std::cin >> weakPass[i];
         inputSize++;
         
-        if (cin.get() == '\n')
+        if (std::cin.get() == '\n')
         {
             break;
         }
@@ -432,12 +430,12 @@ void SumOfOddAfterEven03 ()
     int arr[MAX_SIZE] = {0,};
     int size;
 
-    cin >> size;
+    std::cin >> size;
     while (size > MAX_SIZE)
     {
         size = 0;
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
-        cin >> size;
+        std::cin >> size;
     }
 
     readArray(arr, size);
@@ -462,18 +460,18 @@ void SortDescending04 ()
     int arr[MAX_SIZE] = {0,};
     int size;
     
-    cin >> size;
+    std::cin >> size;
     while (size > MAX_SIZE)
     {
         size = 0;
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
-        cin >> size;
+        std::cin >> size;
     }
 
     readArray(arr, size);
 
     quicksort(arr, size, 0, 0);
-    printArray(arr, size); cout << endl;
+    printArray(arr, size); std::cout << endl;
 }
 
 /**
@@ -485,12 +483,12 @@ void SortByRepetitions05 ()
     int arr[MAX_SIZE] = {0,};
     int size = 0;
 
-    cin >> size;
+    std::cin >> size;
     while (size > MAX_SIZE)
     {
         size = 0;
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
-        cin >> size;
+        std::cin >> size;
     }
 
     readArray(arr, size);
@@ -521,22 +519,22 @@ void SortByRepetitions05 ()
 void guessMyNumber06 ()
 {
     int intervalStart, intervalEnd;
-    cout << "Interval: ";
+    std::cout << "Interval: ";
 
-    cin >> intervalStart; cout << "to "; cin >> intervalEnd;
+    std::cin >> intervalStart; std::cout << "to "; std::cin >> intervalEnd;
     
     // Input validation
     if (intervalStart == intervalEnd)
     {
-        cout << "Your number is " << intervalStart << '!' << endl;
+        std::cout << "Your number is " << intervalStart << '!' << endl;
         return ;
     }
 
     while (intervalStart > intervalEnd)
     {
         intervalStart = 0; intervalEnd = 0;
-        cout << "Invalid interval! Please try again:" << endl;
-        cin >> intervalStart; cout << "to "; cin >> intervalEnd;
+        std::cout << "Invalid interval! Please try again:" << endl;
+        std::cin >> intervalStart; std::cout << "to "; std::cin >> intervalEnd;
     }
 
     int guess;
@@ -545,40 +543,40 @@ void guessMyNumber06 ()
 
     while (isCorrect == false)
     {
-        cout << intervalStart << ',' << intervalEnd << endl;
+        std::cout << intervalStart << ',' << intervalEnd << endl;
         guess = intervalStart + (std::rand() % (intervalEnd - intervalStart + 1));
         // Random number within the current interval
         // TO DO: improve guessing algorithm
 
-        cout << "Is your number " << guess << "? | [Y] or [N]" << endl;
+        std::cout << "Is your number " << guess << "? | [Y] or [N]" << endl;
         
-        cin >> response;
+        std::cin >> response;
         /*
         while (response != 'Y' || response != 'y' || response != 'N' || response != 'n')
         {
             response = 0;
-            cout << "...what?" << endl;
-            cin >> response;
+            std::cout << "...what?" << endl;
+            std::cin >> response;
         }
         */
 
         if (response == 'Y' || response == 'y')
         {
-            cout << "I win!" << endl;
+            std::cout << "I win!" << endl;
             isCorrect = true;
         }
         else
         {
             response = 0;
-            cout << "Is your number higher or lower than " << guess << "? | [H] or [L]" << endl;
+            std::cout << "Is your number higher or lower than " << guess << "? | [H] or [L]" << endl;
 
-            cin >> response;
+            std::cin >> response;
             /*
             while ((response != 'H' || response != 'h') || (response != 'L' || response != 'l'))
             {
                 response = 0;
-                cout << "...what?" << endl;
-                cin >> response;
+                std::cout << "...what?" << endl;
+                std::cin >> response;
             }
             */
 
@@ -586,7 +584,7 @@ void guessMyNumber06 ()
             {
                 if (guess == intervalEnd)
                 {
-                    cout << "Liar!" << endl;
+                    std::cout << "Liar!" << endl;
                     return ;
                 }
 
@@ -596,7 +594,7 @@ void guessMyNumber06 ()
             {
                 if (guess == intervalStart)
                 {
-                    cout << "Liar!" << endl;
+                    std::cout << "Liar!" << endl;
                     return ;
                 }
 
@@ -614,42 +612,42 @@ void findLongestStreak07 ()
     int arr[MAX_SIZE] = {0,};
     int size;
     
-    cin >> size;
+    std::cin >> size;
     while (size > MAX_SIZE)
     {
         size = 0;
         std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
-        cin >> size;
+        std::cin >> size;
     }
 }
 
 int main()
 {
-    cout << "Homework 07: Algorithms" << endl;
-    cout << "----------------------------------" << endl;
+    std::cout << "Homework 07: Algorithms" << endl;
+    std::cout << "----------------------------------" << endl;
     
-    cout << "Task 01: Find Last;" << endl;
-    cout << "Task 02: Strong Pass;" << endl;
-    cout << "Task 03: Sum of Odd After Even;" << endl;
-    cout << "Task 04: Sort Descending;" << endl;
-    cout << "Task 05: Sort by Repetitions;" << endl;
-    cout << "Task 06: Guess my Number" << endl;
-    cout << "Task 07: Find Longest Streak;" << endl;
-    cout << "Task 08: Merge & Sort;" << endl;
-    cout << "Task 09: Binary Search;" << endl;
-    cout << "Task 10: Delete & Shift;" << endl;
-    cout << "Task 11: Find Sum Pair;" << endl;
-    cout << "Task 12: Convert to Decimal;" << endl;
-    cout << "Task 13: Pyramid Sort;" << endl << endl;
+    std::cout << "Task 01: Find Last;" << endl;
+    std::cout << "Task 02: Strong Pass;" << endl;
+    std::cout << "Task 03: Sum of Odd After Even;" << endl;
+    std::cout << "Task 04: Sort Descending;" << endl;
+    std::cout << "Task 05: Sort by Repetitions;" << endl;
+    std::cout << "Task 06: Guess my Number" << endl;
+    std::cout << "Task 07: Find Longest Streak;" << endl;
+    std::cout << "Task 08: Merge & Sort;" << endl;
+    std::cout << "Task 09: Binary Search;" << endl;
+    std::cout << "Task 10: Delete & Shift;" << endl;
+    std::cout << "Task 11: Find Sum Pair;" << endl;
+    std::cout << "Task 12: Convert to Decimal;" << endl;
+    std::cout << "Task 13: Pyramid Sort;" << endl << endl;
 
-    cout << "Please select task number to run: ";
-    int task; cin >> task;
+    std::cout << "Please select task number to run: ";
+    int task; std::cin >> task;
 
     while (task < 1 || task > 13)
     {
         task = 0;
         std::cerr << "Task number not found. Please enter valid task number: ";
-        cin >> task;
+        std::cin >> task;
     }
 
     std::cout << "Starting Task " << task << "..." << endl;
