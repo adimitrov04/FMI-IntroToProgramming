@@ -253,6 +253,30 @@ void copyArray (const char source[], int size, char copy[], int& copySize)
     }
 }
 
+void mergeArrays (const int arr1[], int size1, const int arr2[], int size2,
+                  int newArr[], int& inOutNewsize)
+{
+    inOutNewsize = size1 + size2;
+    if (inOutNewsize > MAX_SIZE)
+    {
+        std::cerr << "Cannot merge: new array is surpasses the size limit of "
+        << MAX_SIZE << endl;
+
+        inOutNewsize = 0;
+        return ;
+    }
+
+    for (int i = 0; i < size1; i++)
+    {
+        newArr[i] = arr1[i];
+    }
+
+    for (int i = 0; i < size2; i++)
+    {
+        newArr[size1 + i] = arr2[i];
+    }
+}
+
 /**
  * Take a password consisting of characters and insert a number after each letter to make it stronger.
  */
@@ -311,16 +335,16 @@ void moveElement (int arr[], int size, int elem, int moveTo)
 /**
  * Quicksort algorithm.
  * 
- * @param direction 1 - ascending (default); 0 - descending
+ * @param ascending default - true
  */
-void quicksort (int arr[], int size, int lowerLim = 0, bool direction = 1)
+void quicksort (int arr[], int size, int lowerLim = 0, bool ascending = 1)
 {
     if ((size - lowerLim) <= 1)
         return ;
 
     int pivot = (size - 1);
 
-    if (direction == 1) // Sort ascending
+    if (ascending == true) // Sort ascending
     {
         for (int i = pivot - 1; i >= lowerLim; i--)
         {
@@ -343,8 +367,8 @@ void quicksort (int arr[], int size, int lowerLim = 0, bool direction = 1)
         }
     }
 
-    quicksort(arr, size, pivot + 1, direction);
-    quicksort(arr, pivot, 0, direction);
+    quicksort(arr, size, pivot + 1, ascending);
+    quicksort(arr, pivot, 0, ascending);
 }
 
 /**
@@ -371,7 +395,7 @@ void gatherAllRepetitions (int arr[], int size, int elem)
  * 
  * Output -1 if the element is not found within the array.
  */
-void FindLast_01 ()
+void FindLast01 ()
 {
     int arr[MAX_SIZE] = {0,};
     int size;
@@ -607,7 +631,7 @@ void guessMyNumber06 ()
 /**
  * Given an array, output the longest streak of repetirions of the same number.
  */
-void findLongestStreak07 ()
+void longestStreak07 ()
 {
     int arr[MAX_SIZE] = {0,};
     int size;
@@ -658,6 +682,50 @@ void findLongestStreak07 ()
     std::cout << "Longest streak: " << longestStreak << endl;
 }
 
+/**
+ * Read 2 sorted arrays and merge them into one array, which is sorted descending.
+ */
+void mergeAndSort08 ()
+{
+    // Read first array
+    int arr1[MAX_SIZE] = {0,};
+    int size1;
+    
+    std::cin >> size1;
+    while (size1 > MAX_SIZE)
+    {
+        size1 = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size1;
+    }
+
+    readArray(arr1, size1);
+
+    // Read second array
+    int arr2[MAX_SIZE] = {0,};
+    int size2;
+    
+    std::cin >> size2;
+    while (size2 > MAX_SIZE)
+    {
+        size2 = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size2;
+    }
+
+    readArray(arr2, size2);
+
+    int mergedArr[MAX_SIZE] = {0,};
+    int mergedSize = 0;
+    mergeArrays(arr1, size1, arr2, size2, mergedArr, mergedSize);
+
+    if (mergedSize == 0) return ;
+
+    quicksort(mergedArr, mergedSize, 0, false);
+    
+    printArray(mergedArr, mergedSize);
+}
+
 int main()
 {
     std::cout << "Homework 07: Algorithms" << endl;
@@ -669,7 +737,7 @@ int main()
     std::cout << "Task 04: Sort Descending;" << endl;
     std::cout << "Task 05: Sort by Repetitions;" << endl;
     std::cout << "Task 06: Guess my Number" << endl;
-    std::cout << "Task 07: Find Longest Streak;" << endl;
+    std::cout << "Task 07: Longest Streak;" << endl;
     std::cout << "Task 08: Merge & Sort;" << endl;
     std::cout << "Task 09: Binary Search;" << endl;
     std::cout << "Task 10: Delete & Shift;" << endl;
@@ -690,13 +758,14 @@ int main()
     std::cout << "Starting Task " << task << "..." << endl;
     switch (task)
     {
-        case 1: FindLast_01(); break;
+        case 1: FindLast01(); break;
         case 2: StrongPass02(); break;
         case 3: SumOfOddAfterEven03(); break;
         case 4: SortDescending04(); break;
         case 5: SortByRepetitions05(); break;
         case 6: guessMyNumber06(); break;
-        case 7: findLongestStreak07(); break;
+        case 7: longestStreak07(); break;
+        case 8: mergeAndSort08(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
