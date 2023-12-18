@@ -929,6 +929,52 @@ void DeleteAndInsert10 ()
     }
 }
 
+void FindSumPair11 ()
+{
+    int arr[MAX_SIZE] = {0,};
+    int size;
+    
+    std::cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size;
+    }
+
+    readArray(arr, size);
+
+    int sum; std::cin >> sum;
+    int operand1 = -1, operand2 = -1;
+
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if (j == i)
+                j++;
+
+            if (arr[i] + arr[j] == sum)
+            {
+                operand1 = i;
+                operand2 = j;
+
+                i = size; // Break outer loop
+                break;
+            }
+        }
+    }
+
+    if (operand1 != -1 && operand2 != -1)
+    {
+        std::cout << "Pair found: " << arr[operand1] << " and " << arr[operand2] << endl;
+    }
+    else
+    {
+        std::cout << "No such pair exists." << endl;
+    }
+}
+
 /**
  * Read an array of 1's and 0's and convert them from binary to octal.
  */
@@ -997,6 +1043,7 @@ int main()
         case 8: MergeAndSort08(); break;
         case 9: BinarySearchDemo09(); break;
         case 10: DeleteAndInsert10(); break;
+        case 11: FindSumPair11(); break;
         case 12: BinaryToOctal12(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
