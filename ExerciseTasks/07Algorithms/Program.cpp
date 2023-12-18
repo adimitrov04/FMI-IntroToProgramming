@@ -1,11 +1,33 @@
 #include <iostream>
+#include <cmath>
 #include <cstdlib>
 
 using std::endl;
 
 const int MAX_SIZE = 1000; // Global maximum size for an array
 
-// ------- Array IO functions -------
+// ---------- Array IO functions ----------
+
+void clearArray (int arr[], int& inOutSize)
+{
+    for (int i = 0; i < inOutSize; i++)
+    {
+        arr[i] = 0;
+    }
+
+    inOutSize = 0;
+}
+
+void clearArray (bool arr[], int& inOutSize)
+{
+    for (int i = 0; i < inOutSize; i++)
+    {
+        arr[i] = 0;
+    }
+
+    inOutSize = 0;
+}
+
 
 void readArray (int arr[], int size)
 {
@@ -13,6 +35,19 @@ void readArray (int arr[], int size)
     {
         std::cin >> arr[i];
     }
+}
+
+bool isValidBinary (const int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] != 0 && arr[i] != 1)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void printArray (const int arr[], int size)
@@ -31,7 +66,7 @@ void printArray (const char arr[], int size)
     }
 }
 
-// ------- Array analysis functions -------
+// ---------- Array analysis functions ----------
 
 /**
  * Find the first instance of an element within a given range.
@@ -228,7 +263,7 @@ int findMostRepeated (const int arr[], int size, int rStart = 0)
     return mostRepeated;
 }
 
-// ------- Array modification functions -------
+// ---------- Array modification functions ----------
 
 void insertElement (int arr[], int& inOutSize, int insert, int index)
 {
@@ -422,7 +457,44 @@ void gatherAllRepetitions (int arr[], int size, int elem)
     }
 }
 
-// --------- TASKS ----------
+// ---------- Mathematical functions ----------
+
+int binaryToOctal (const int bits[], int size)
+{
+    uint32_t octal = 0;
+    uint32_t exponent = 1;
+
+    if (isValidBinary(bits, size) == false)
+    {
+        return -1;
+    }
+
+    int digit = 0;
+    for (int i = size - 1; i >= 0; i -= 3)
+    {
+        if (i < 2)
+        {
+            while (i >= 0)
+            {
+                digit += bits[i] * std::pow(2, 1 - i);
+                i--;
+            }
+        }
+        else
+        {
+            digit = (bits[i] + (2 * bits[i - 1]) + (4 * bits[i - 2]));
+        }
+
+        octal += exponent * digit;
+        
+        digit = 0;
+        exponent *= 10;
+    }
+
+    return octal;
+}
+
+// ---------- TASKS -----------
 
 /**
  * Read an array and an element to find and output the index of the last instance of that element
@@ -790,6 +862,32 @@ void binarySearchDemo09 ()
     }
 }
 
+/**
+ * Read an array of 1's and 0's and convert them from binary to octal.
+ */
+void binaryToOctal12 ()
+{
+    const int MAX_BITS = 128;
+    
+    int bits[MAX_BITS] = {0,};
+
+    int size = 0;
+    std::cin >> size;
+    
+    readArray(bits, size);
+
+    if (binaryToOctal(bits, size) == -1) // If reading the array failed
+    {
+        std::cerr << "Invalid input." << endl;
+        return ;
+    }
+
+    uint32_t octal;
+    octal = binaryToOctal(bits, size);
+
+    std::cout << octal << endl;
+}
+
 int main()
 {
     std::cout << "Homework 07: Algorithms" << endl;
@@ -806,7 +904,7 @@ int main()
     std::cout << "Task 09: Binary Search;" << endl;
     std::cout << "Task 10: Delete & Shift;" << endl;
     std::cout << "Task 11: Find Sum Pair;" << endl;
-    std::cout << "Task 12: Convert to Decimal;" << endl;
+    std::cout << "Task 12: Convert to Octal;" << endl;
     std::cout << "Task 13: Pyramid Sort;" << endl << endl;
 
     std::cout << "Please select task number to run: ";
@@ -831,6 +929,7 @@ int main()
         case 7: longestStreak07(); break;
         case 8: mergeAndSort08(); break;
         case 9: binarySearchDemo09(); break;
+        case 12: binaryToOctal12(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
