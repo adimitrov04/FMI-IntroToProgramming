@@ -28,7 +28,6 @@ void clearArray (bool arr[], int& inOutSize)
     inOutSize = 0;
 }
 
-
 void readArray (int arr[], int size)
 {
     for (int i = 0; i < size; i++)
@@ -265,39 +264,56 @@ int findMostRepeated (const int arr[], int size, int rStart = 0)
 
 // ---------- Array modification functions ----------
 
-void insertElement (int arr[], int& inOutSize, int insert, int index)
+bool insertElement (int arr[], int& inOutSize, int insert, int index)
 {
     if (inOutSize == MAX_SIZE)
     {
         std::cerr << "No space left in array." << endl;
-        return ;
+        return false;
     }
     
     inOutSize++;
-    
+    if (index >= inOutSize || index < 0)
+    {
+        std::cerr << "Cannot insert outside of array." << endl;
+        inOutSize--;
+        return false;
+    }
+
     for (int i = inOutSize - 1; i > index; i--)
     {
         arr[i] = arr[i - 1];
     }
 
     arr[index] = insert;
+
+    return true;
 }
 
-void insertElement (char arr[], int& inOutSize, char insert, int index)
+bool insertElement (char arr[], int& inOutSize, char insert, int index)
 {
     if (inOutSize == MAX_SIZE)
     {
         std::cerr << "No space left in array." << endl;
-        return ;
+        return false;
     }
     
     inOutSize++;
+    if (index >= inOutSize || index < 0)
+    {
+        std::cerr << "Cannot insert outside of array." << endl;
+        inOutSize--;
+        return false;
+    }
+
     for (int i = inOutSize - 1; i > index; i--)
     {
         arr[i] = arr[i - 1];
     }
 
     arr[index] = insert;
+    
+    return true;
 }
 
 /**
@@ -400,6 +416,28 @@ void moveElement (int arr[], int size, int elem, int moveTo)
 
     // Place value in new position
     arr[moveTo] = moveValue;
+}
+
+/**
+ * Remove an element of an array without changing the order of the rest.
+ */
+bool removeElement(int arr[], int& inOutSize, int index) 
+{
+    if (index < 0 || index >= inOutSize)
+    {
+        std::cerr << "Cannot delete an element outside of the array." << endl;
+        return false;
+    }
+    
+    for (int i = index; i < inOutSize - 1; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+
+    arr[inOutSize - 1] = 0;
+    inOutSize--;
+
+    return true;
 }
 
 /**
@@ -647,7 +685,7 @@ void SortByRepetitions05 ()
  * Given an interval, guess the number the user is thinking of. After each step,
  * ask the user whether the number is higher or lower than the guess. 
  */
-void guessMyNumber06 ()
+void GuessMyNumber06 ()
 {
     int intervalStart, intervalEnd;
     std::cout << "Interval: ";
@@ -738,7 +776,7 @@ void guessMyNumber06 ()
 /**
  * Given an array, output the longest streak of repetirions of the same number.
  */
-void longestStreak07 ()
+void LongestStreak07 ()
 {
     int arr[MAX_SIZE] = {0,};
     int size;
@@ -792,7 +830,7 @@ void longestStreak07 ()
 /**
  * Read 2 sorted arrays and merge them into one array, which is sorted descending.
  */
-void mergeAndSort08 ()
+void MergeAndSort08 ()
 {
     // Read first array
     int arr1[MAX_SIZE] = {0,};
@@ -836,7 +874,7 @@ void mergeAndSort08 ()
 /**
  * Demonstrate binary search.
  */
-void binarySearchDemo09 ()
+void BinarySearchDemo09 ()
 {
     int arr[MAX_SIZE] = {0,};
     int size;
@@ -863,9 +901,38 @@ void binarySearchDemo09 ()
 }
 
 /**
+ * Delete an element within a given array without changing the order of the rest.
+ * In place of the empty element in the end, insert -1.
+ */
+void DeleteAndInsert10 ()
+{
+    int arr[MAX_SIZE] = {0,};
+    int size;
+    
+    std::cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size;
+    }
+
+    readArray(arr, size);
+
+    int removeIndex = 0;
+    std::cin >> removeIndex;
+
+    if (removeElement(arr, size, removeIndex) == true)
+    {
+        insertElement(arr, size, -1, size);
+        printArray(arr, size);
+    }
+}
+
+/**
  * Read an array of 1's and 0's and convert them from binary to octal.
  */
-void binaryToOctal12 ()
+void BinaryToOctal12 ()
 {
     const int MAX_BITS = 128;
     
@@ -902,7 +969,7 @@ int main()
     std::cout << "Task 07: Longest Streak;" << endl;
     std::cout << "Task 08: Merge & Sort;" << endl;
     std::cout << "Task 09: Binary Search;" << endl;
-    std::cout << "Task 10: Delete & Shift;" << endl;
+    std::cout << "Task 10: Delete & Insert;" << endl;
     std::cout << "Task 11: Find Sum Pair;" << endl;
     std::cout << "Task 12: Convert to Octal;" << endl;
     std::cout << "Task 13: Pyramid Sort;" << endl << endl;
@@ -925,11 +992,12 @@ int main()
         case 3: SumOfOddAfterEven03(); break;
         case 4: SortDescending04(); break;
         case 5: SortByRepetitions05(); break;
-        case 6: guessMyNumber06(); break;
-        case 7: longestStreak07(); break;
-        case 8: mergeAndSort08(); break;
-        case 9: binarySearchDemo09(); break;
-        case 12: binaryToOctal12(); break;
+        case 6: GuessMyNumber06(); break;
+        case 7: LongestStreak07(); break;
+        case 8: MergeAndSort08(); break;
+        case 9: BinarySearchDemo09(); break;
+        case 10: DeleteAndInsert10(); break;
+        case 12: BinaryToOctal12(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
