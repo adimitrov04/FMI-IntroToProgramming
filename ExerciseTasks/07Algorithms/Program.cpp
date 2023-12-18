@@ -1001,6 +1001,32 @@ void BinaryToOctal12 ()
     std::cout << octal << endl;
 }
 
+void PyramidSort13 ()
+{
+    int arr[MAX_SIZE] = {0,};
+
+    int size = 0;
+    std::cin >> size;
+    while (size > MAX_SIZE)
+    {
+        size = 0;
+        std::cerr << "Size is too big, please enter a size <= " << MAX_SIZE << endl;
+        std::cin >> size;
+    }
+
+    readArray(arr, size);
+
+    quicksort(arr, size);
+
+    for (int i = size - 1; i >= 0; i -= 2)
+    {
+        moveElement(arr, size, i, size - 1);
+    }
+
+    printArray(arr, size);
+
+}
+
 int main()
 {
     std::cout << "Homework 07: Algorithms" << endl;
@@ -1045,6 +1071,7 @@ int main()
         case 10: DeleteAndInsert10(); break;
         case 11: FindSumPair11(); break;
         case 12: BinaryToOctal12(); break;
+        case 13: PyramidSort13(); break;
 
         default: std::cout << "Task unavailable. Sorry!" << endl;
     }
