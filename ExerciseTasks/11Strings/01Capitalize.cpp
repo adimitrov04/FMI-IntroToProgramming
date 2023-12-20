@@ -2,8 +2,6 @@
 
 using std::endl;
 
-typedef char* pStr; // Char array pointer
-
 const int CHAR_LIMIT = 256;
 
 /*
@@ -22,7 +20,7 @@ output: ABCDEEF1$
  * 
  * @param src The address of the source.
  */
-void capitalize (pStr src)
+void capitalize (char* src)
 {
     if (src == nullptr)
         return ;
@@ -40,7 +38,6 @@ void capitalize (pStr src)
 int main ()
 {
     char str[CHAR_LIMIT] = {0,};
-
     std::cin.getline(str, CHAR_LIMIT);
 
     capitalize(str);
