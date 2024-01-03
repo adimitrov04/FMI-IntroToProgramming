@@ -3,7 +3,7 @@
 using std::endl;
 
 /*
---------------------- 01 PrintNumbers ---------------------
+----------------------- 01 One to N -----------------------
 Create a program which takes a number N and prints all
 numbers from 1 to N using a recursive function.
 
@@ -28,4 +28,6 @@ int main ()
     std::cin >> n;
 
     printNumbers(n);
+
+    return 0;
 }
