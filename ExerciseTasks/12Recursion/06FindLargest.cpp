@@ -23,7 +23,7 @@ void readArray (int* arr, int size)
     }
 }
 
-int findLargest (int* arr, const int size)
+int findLargest (const int* arr, const int size)
 {
     int max = *(arr + (size - 1));
 
@@ -51,6 +51,7 @@ int main ()
     }
 
     readArray(arr, size);
+    
     std::cout << findLargest(arr, size) << endl;
 
     return 0;
