@@ -57,6 +57,11 @@ void my_strcat (char* str1, char* str2)
     my_strcpy(start, str2);
 }
 
+/**
+ * Concatenate two cstrings
+ * 
+ * @return An address to a dynamic cstring
+ */
 char* dynamic_strcat (char* str1, char* str2)
 {
     if (str1 == nullptr && str2 == nullptr)
@@ -76,7 +81,6 @@ char* dynamic_strcat (char* str1, char* str2)
     my_strcat(cat, str2);
 
     return cat;
-    delete[] cat;
 }
 
 int main ()
