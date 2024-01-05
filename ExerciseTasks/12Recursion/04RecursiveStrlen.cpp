@@ -20,14 +20,7 @@ int rec_strlen (char* src)
     if (*src == '\0')
         return 0;
     
-    int len = 1, i = 1;
-    while (rec_strlen(src + i))
-    {
-        len++;
-        i++;
-    }
-
-    return len;
+    return 1 + rec_strlen(src + 1);
 }
 
 int main ()

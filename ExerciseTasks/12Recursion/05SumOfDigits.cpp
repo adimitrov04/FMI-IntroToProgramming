@@ -18,14 +18,13 @@ int sumOfDigits (int num)
 {
     num = abs(num); // We don't care if it's negative or not
 
-    int sum = 0;
     if (num == 0)
-        return sum;
+        return 0;
+    
+    int currentDigit = num % 10; // Get the right-most digit
+    int remaining = num / 10;
 
-    sum += sumOfDigits(num / 10);
-    sum += num % 10;
-
-    return sum;
+    return currentDigit + sumOfDigits(remaining);
 }
 
 int main ()

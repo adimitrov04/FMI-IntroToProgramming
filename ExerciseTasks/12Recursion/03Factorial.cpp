@@ -15,19 +15,10 @@ output: 24 (4 x 3 x 2 x 1)
 
 int factorial (int num)
 {
-    if (num < 0)
-    {
-
-    }
-    else if (num == 0)
-    {
+    if (num == 0)
         return 1;
-    }
-
-    int result = num;
-    result *= factorial(num - 1);
-
-    return result;
+    
+    return num * factorial(num - 1);
 }
 
 int main ()

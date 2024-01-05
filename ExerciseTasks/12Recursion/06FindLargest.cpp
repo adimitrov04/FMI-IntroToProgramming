@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 using std::endl;
 
@@ -23,17 +24,15 @@ void readArray (int* arr, int size)
     }
 }
 
-int findLargest (const int* arr, const int size)
+int findLargest (const int* arr, const int size, int currMax = INT_MIN)
 {
-    int max = *(arr + (size - 1));
-
     if (size == 0)
-        return 0;
+        return currMax;
 
-    if (max < findLargest(arr, (size - 1)))
-        max = findLargest(arr, (size - 1));
+    if (*arr > currMax)
+        currMax = *arr;
 
-    return max;
+    return findLargest((arr + 1), (size - 1), currMax);
 }
 
 int main ()
