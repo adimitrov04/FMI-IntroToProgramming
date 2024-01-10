@@ -25,18 +25,19 @@ void my_strcpychar (char* dest, char* src, int offset)
 
 int atoi (const char* str)
 {
-    uint num = 0;
-    int i = 0;
-    while (*str && !(*str > '0' && *str <= '9'))
+    int num = 0;
+
+    const char* check = str;
+    while (*check && (*check <= '0' || *check > '9'))
     {
-        i++;
+        check++;
     }
 
-    const char* start = str + i;
-    while (*start && (*start >= '0' && *start <= '9'))
+    const char* dig = (str + (check - str));
+    while (*dig && (*dig >= '0' && *dig <= '9'))
     {
-        num *= 10;
-        num += (*start - '0');
+        num = (num * 10) + (*dig - '0');
+        dig++;
     }
 
     return num;
