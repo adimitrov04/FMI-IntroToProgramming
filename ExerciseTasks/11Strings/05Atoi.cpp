@@ -23,38 +23,23 @@ void my_strcpychar (char* dest, char* src, int offset)
     *dest = *(src + offset);
 }
 
-int atoi (const char* src)
+int atoi (const char* str)
 {
-    if (src == nullptr)
-        return -1;
-    
-    int result = 0;
-    
-    bool numberStarted = 0;
-    while (*src)
+    uint num = 0;
+    int i = 0;
+    while (*str && !(*str > '0' && *str <= '9'))
     {
-        if (*src >= '0' && *src <= '9')
-        {
-            if (numberStarted)
-            {
-                result = (result * 10) + (*src - '0');
-            }
-            else if (*src != '0')
-            {
-                numberStarted = true;
-                result = (result * 10) + (*src - '0');
-            }
-        }
-        else
-        {
-            if (numberStarted)
-                break;
-        }
-
-        src++;
+        i++;
     }
 
-    return result;
+    const char* start = str + i;
+    while (*start && (*start >= '0' && *start <= '9'))
+    {
+        num *= 10;
+        num += (*start - '0');
+    }
+
+    return num;
 }
 
 int main ()
