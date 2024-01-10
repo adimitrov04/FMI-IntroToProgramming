@@ -3,9 +3,12 @@
 
 using std::endl;
 
+typedef int** matrix;
+
 const int capitalDiff = 'A' - 'a'; // The difference between capital and lowercase letters
 const int MAX_STRING = 1000;       // Max length of a string
 const int MAX_KEYWORD = 10;        // Max length of each encryption keyword
+const int ALPHABET = 26;           // Number of letters in the English alphabet
 
 /*
 --------------------- 02 Cryptography ---------------------
@@ -56,6 +59,12 @@ bool letterIs (const char ch, const char letter)
 
     return false;
 }
+
+int readKeywordPair (matrix* dest);
+
+void encrypt (matrix* keywordList, char* str);
+
+void decrypt (matrix* keywordList, char* str);
 
 int main ()
 {
