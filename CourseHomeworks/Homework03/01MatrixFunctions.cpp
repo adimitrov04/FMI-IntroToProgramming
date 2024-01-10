@@ -138,9 +138,9 @@ void removeRow (int** mat, int& rows, int& cols, int row)
 }
 
 /**
- * Checks if a row in a given matrix consists only of zeros
+ * Checks if a column in a given matrix consists only of zeros
  * 
- * @param row The index of the row to check
+ * @param col The index of the column to check
  */
 bool colIsEmpty (int** mat, const int col, const int colSize)
 {
