@@ -3,12 +3,111 @@
 
 using std::endl;
 
-typedef int** matrix;
+typedef char** list;
 
 const int capitalDiff = 'A' - 'a'; // The difference between capital and lowercase letters
 const int MAX_STRING = 1000;       // Max length of a string
-const int MAX_KEYWORD = 10;        // Max length of each encryption keyword
+const int MAX_CODE = 10;        // Max length of each encryption key
 const int ALPHABET = 26;           // Number of letters in the English alphabet
+const int CHAR_LIMIT = 256;
+
+namespace mystr
+{
+
+bool isLetter (const char ch)
+{
+    if (ch >= 'a' && ch <= 'z')
+        return true;
+
+    if (ch >= 'A' && ch <= 'Z')
+        return true;
+
+    return false;
+}
+
+/**
+ * Jump to a given word in a string.
+ */
+char* strjump (char* str, const int word)
+{
+    char* wrd = str;
+    int currentWord = 1;
+
+    while (*str && currentWord < word)
+    {
+        if (isLetter(*str) && *(str - 1) == ' ')
+        {
+            currentWord++;
+            wrd = str;
+        }
+
+        str++;
+    }
+
+    if (currentWord < word)
+        wrd = nullptr;
+
+    return wrd;
+}
+
+int strlen (const char* str)
+{
+    if (!str)
+        return 0;
+
+    int count = 0;
+    while (*str)
+    {
+        count++;
+        str++;
+    }
+
+    return count;
+}
+
+int strwordlen (const char* wrd)
+{
+    if (!wrd)
+        return 0;
+
+    int len = 0;
+    while (*wrd && *wrd != ' ')
+    {
+        len++;
+        wrd++;
+    }
+
+    return len;
+}
+
+void strcpy (char* dest, const char* src)
+{
+    if (!dest || !src)
+        return ;
+    
+    while (*src)
+    {
+        *dest = *src;
+        src++;
+        dest++;
+    }
+
+    *dest = '\0';
+}
+
+void strcpyword (char* dest, const char* wrd)
+{
+    while (*wrd && *wrd != ' ')
+    {
+        *dest = *wrd;
+        dest++;
+        wrd++;
+    }
+
+    *dest = '\0';
+}
+
+}
 
 /*
 --------------------- 02 Cryptography ---------------------
@@ -52,21 +151,142 @@ output: ala bala0vh discoelectro proelectrocanah!
 -----------------------------------------------------------
 */
 
-bool letterIs (const char ch, const char letter)
+int allocFail ()
 {
-    if (ch == letter || ch == (letter + capitalDiff))
-        return true;
-
-    return false;
+    std::cerr << "FAIL: Couldn't allocate memory.";
+    return -1;
 }
 
-int readKeywordPair (matrix* dest);
+int inputFail (char* find, char* replace)
+{
+    using namespace mystr;
 
-void encrypt (matrix* keywordList, char* str);
+    if (!replace)
+    {
+        std::cerr << "Invalid input: no key set... try again:" << endl;
+        return 1;
+    }
 
-void decrypt (matrix* keywordList, char* str);
+    if (!isLetter(*find) || mystr::strwordlen(find) > 1 || mystr::strlen(replace) > 10)
+    {
+        std::cerr << "Invalid input: incorrect format... try again:" << endl;
+        return 2;
+    }
+
+    return 0;
+}
+
+void deleteList (char** list, const int size)
+{
+    if (size == 0)
+        return ;
+
+    for (int i = 0; i < size; i++)
+    {
+        delete[] list[i];
+    }
+
+    delete[] list;
+}
+
+void deleteList (list* list, const int size)
+{
+    if (size == 0)
+        return ;
+
+    for (int i = 0; i < size; i++)
+    {
+        delete[] list[i];
+    }
+
+    delete[] list;
+}
+
+void print (list src, const int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        std::cout << src[i] << endl;
+    }
+}
+
+void encrypt (list* keyList, char* str);
+
+void decrypt (list* keyList, char* str);
 
 int main ()
 {
+    int numberOfKeys = 0;
+    std::cin >> numberOfKeys;
+
+    list* keyList = new (std::nothrow) list[2];
+    if (!keyList)
+    {
+        std::cerr << "keyList:";
+        return allocFail();
+    }
+
+    keyList[0] = new (std::nothrow) char*[numberOfKeys];
+    list plaintext = keyList[0];
+    if (!plaintext)
+    {
+        delete[] keyList;
+        return allocFail();
+    }
+
+    keyList[1] = new (std::nothrow) char*[numberOfKeys];
+    list code = keyList[1];
+    if (!code)
+    {
+        delete[] plaintext;
+        delete[] keyList;
+        return allocFail();
+    }
+
+    char buffer[CHAR_LIMIT] = {0,};
+    char* find;
+    char* replace;
+    
+    std::cin.ignore(); // Ignore the \n from the std::cin before
+    for (int i = 0; i < numberOfKeys; i++)
+    {
+        std::cin.getline(buffer, CHAR_LIMIT);
+
+        find = buffer;
+        replace = mystr::strjump(buffer, 2);
+
+        if (inputFail(find, replace))
+        {
+            std::cout << buffer << endl;
+            i--;
+            continue;
+        }
+
+        plaintext[i] = new (std::nothrow) char;
+        if (!plaintext[i])
+        {
+            deleteList(plaintext, i);
+            deleteList(code, i);
+            deleteList(keyList, 2);
+
+            return allocFail();
+        }
+        *plaintext[i] = find[0];
+
+        code[i] = new (std::nothrow) char[mystr::strlen(replace) + 1];
+        if (!plaintext[i])
+        {
+            deleteList(plaintext, i);
+            deleteList(code, i);
+            deleteList(keyList, 2);
+
+            return allocFail();
+        }
+        mystr::strcpy(code[i], replace);
+    }
+
+    print(plaintext, numberOfKeys);
+    print(code, numberOfKeys);
+
     return 0;
 }
