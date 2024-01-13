@@ -267,7 +267,7 @@ int main ()
         {
             deleteList(plaintext, i);
             deleteList(code, i);
-            deleteList(keyList, 2);
+            delete[] keyList;
 
             return allocFail();
         }
@@ -278,15 +278,87 @@ int main ()
         {
             deleteList(plaintext, i);
             deleteList(code, i);
-            deleteList(keyList, 2);
+            delete[] keyList;
 
             return allocFail();
         }
         mystr::strcpy(code[i], replace);
     }
 
-    print(plaintext, numberOfKeys);
-    print(code, numberOfKeys);
+    int encryptCount = 0, decryptCount = 0;
+    
+    std::cin >> encryptCount;
+    list plaintextStr = new (std::nothrow) char*[encryptCount];
+    if (!plaintextStr)
+    {
+        deleteList(plaintext, numberOfKeys);
+        deleteList(code, numberOfKeys);
+        delete[] keyList;
+
+        return allocFail();
+    }
+
+    std::cin.ignore();
+    for (int i = 0; i < encryptCount; i++)
+    {
+        std::cin.getline(buffer, CHAR_LIMIT);
+        plaintextStr[i] = new (std::nothrow) char[mystr::strlen(buffer) + 1];
+        if (!plaintextStr[i])
+        {
+            deleteList(plaintext, numberOfKeys);
+            deleteList(code, numberOfKeys);
+            delete[] keyList;
+
+            deleteList(plaintextStr, i);
+
+            return allocFail();
+        }
+
+        mystr::strcpy(plaintextStr[i], buffer);
+    }
+
+    std::cin >> decryptCount;
+    list encryptedStr = new (std::nothrow) char*[decryptCount];
+    if (!encryptedStr)
+    {
+        deleteList(plaintext, numberOfKeys);
+        deleteList(code, numberOfKeys);
+        delete[] keyList;
+        
+        deleteList(plaintextStr, encryptCount);
+
+        return allocFail();
+    }
+
+    std::cin.ignore();
+    for (int i = 0; i < decryptCount; i++)
+    {
+        std::cin.getline(buffer, CHAR_LIMIT);
+        encryptedStr[i] = new (std::nothrow) char[mystr::strlen(buffer) + 1];
+        if (!encryptedStr[i])
+        {
+            deleteList(plaintext, numberOfKeys);
+            deleteList(code, numberOfKeys);
+            delete[] keyList;
+
+            deleteList(plaintextStr, encryptCount);
+            deleteList(encryptedStr, i);
+
+            return allocFail();
+        }
+
+        mystr::strcpy(encryptedStr[i], buffer);
+    }
+
+    print (encryptedStr, decryptCount);
+
+    // Clear allocated memory
+    deleteList(plaintext, numberOfKeys);
+    deleteList(code, numberOfKeys);
+    delete[] keyList;
+
+    deleteList(plaintextStr, encryptCount);
+    deleteList(encryptedStr, decryptCount);
 
     return 0;
 }
