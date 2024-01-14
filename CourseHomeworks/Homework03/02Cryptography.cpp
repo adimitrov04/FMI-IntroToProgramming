@@ -14,6 +14,14 @@ const int CHAR_LIMIT = 256;
 namespace mystr
 {
 
+bool letterIs (const char ch, const char letter)
+{
+    if (ch == letter || ch == (letter - capitalDiff))
+        return true;
+
+    return false;
+}
+
 bool isLetter (const char ch)
 {
     if (ch >= 'a' && ch <= 'z')
@@ -157,7 +165,18 @@ int allocFail ()
     return -1;
 }
 
-int inputFail (char* find, char* replace)
+bool isInList (char ch, list searchIn, const int listSize)
+{
+    for (int i = 0; i < listSize; i++)
+    {
+        if (mystr::letterIs(searchIn[i][0], ch))
+            return true;
+    }
+
+    return false;
+}
+
+int inputFail (char* find, char* replace, const list dest, const int destSize)
 {
     using namespace mystr;
 
@@ -170,6 +189,12 @@ int inputFail (char* find, char* replace)
     if (!isLetter(*find) || mystr::strwordlen(find) > 1 || mystr::strlen(replace) > 10)
     {
         std::cerr << "Invalid input: incorrect format... try again:" << endl;
+        return 2;
+    }
+
+    if (isInList(*find, dest, destSize))
+    {
+        std::cerr << "Invalid input: key already set for letter... try again:" << endl;
         return 2;
     }
 
@@ -210,19 +235,21 @@ void print (list src, const int len)
     }
 }
 
-void encrypt (list* keyList, char* str);
+void encrypt (list* keyList, char* str)
+{
+
+}
 
 void decrypt (list* keyList, char* str);
 
 int main ()
-{
+{   
     int numberOfKeys = 0;
     std::cin >> numberOfKeys;
 
     list* keyList = new (std::nothrow) list[2];
     if (!keyList)
     {
-        std::cerr << "keyList:";
         return allocFail();
     }
 
@@ -255,9 +282,9 @@ int main ()
         find = buffer;
         replace = mystr::strjump(buffer, 2);
 
-        if (inputFail(find, replace))
+        if (inputFail(find, replace, plaintext, i))
         {
-            std::cout << buffer << endl;
+            //std::cout << buffer << endl;
             i--;
             continue;
         }
@@ -350,7 +377,7 @@ int main ()
         mystr::strcpy(encryptedStr[i], buffer);
     }
 
-    print (encryptedStr, decryptCount);
+    
 
     // Clear allocated memory
     deleteList(plaintext, numberOfKeys);
