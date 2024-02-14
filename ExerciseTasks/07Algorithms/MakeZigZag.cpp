@@ -34,38 +34,26 @@ void printArray (const int arr[], int size)
 }
 
 /**
- * Copy the contents of one array into another. 
+ * Find the first instance of an element within a given range.
+ * 
+ * @param rStart, rEnd The start and end of the range
+ * DEFAULT: [0; size - 1]
+ * 
+ * @return The index where the searched for element is first found
+ * @return -1 if the element is not found within the given range
  */
-void copyArray (const int source[], int size, int copy[])
+int search (const int arr[], int size, int search, int rStart = 0, int rEnd = 0)
 {
-    for (int i = 0; i < size; i++)
-    {
-        copy[i] = source[i];
-    }
-}
+    if (rEnd == 0)
+        rEnd = size - 1;
 
-/**
- * Check if array is ZigZag.
- */
-bool isZigZag (const int arr[], int size)
-{
-    if (size <= 2)
-        return true;
-
-    for (int i = 1; i < (size - 1); i++)
+    for (int i = rStart; i <= rEnd; i++)
     {
-        if ((arr[i] == arr[i + 1]) || (arr[i] == arr[i - 1]))
-        {
-            return false;
-        }
-        else if ((arr[i] > arr[i - 1] && arr[i] < arr[i + 1]) ||
-                 (arr[i] < arr[i - 1] && arr[i] > arr[i + 1]))
-        {
-            return false;
-        }
+        if (arr[i] == search)
+            return i;
     }
 
-    return true;
+    return -1;
 }
 
 /**
@@ -108,24 +96,193 @@ void moveElement (int arr[], int size, int elem, int moveTo)
     arr[moveTo] = moveValue;
 }
 
-void quicksort (int arr[], int size, int lowerLim = 0)
+/**
+ * Quicksort algorithm.
+ * 
+ * @param ascending default - true
+ */
+void quicksort (int arr[], int size, bool ascending = true, int lowerLim = 0)
 {
     if ((size - lowerLim) <= 1)
         return ;
 
-    int pivot = size - 1;
+    int pivot = (size - 1);
 
-    for (int i = pivot - 1; i >= lowerLim; i--)
+    if (ascending == true) // Sort ascending
     {
-        if (arr[i] > arr[pivot])
+        for (int i = pivot - 1; i >= lowerLim; i--)
         {
-            moveElement(arr, size, i, pivot);
-            pivot--;
+            if (arr[i] > arr[pivot])
+            {
+                moveElement(arr, size, i, pivot);
+                pivot--;
+            }
+        }
+    }
+    else
+    {
+        for (int i = pivot - 1; i >= lowerLim; i--)
+        {
+            if (arr[i] < arr[pivot])
+            {
+                moveElement(arr, size, i, pivot);
+                pivot--;
+            }
         }
     }
 
-    quicksort(arr, pivot, 0);
-    quicksort(arr, size, pivot + 1);
+    quicksort(arr, size, ascending, pivot + 1);
+    quicksort(arr, pivot, ascending, 0);
+}
+
+/**
+ * Gather all repetitions of a given element within an array after the index of the
+ * given element.
+ * 
+ * @param elem The index of the element; all repetitions of the element after the given
+ * index will gather directly after this index
+ */
+void gatherAllRepetitions (int arr[], int size, int elem)
+{
+    while (search(arr, size, arr[elem], elem + 1, size - 1) != -1)
+    {
+        moveElement(arr, size, search(arr, size, arr[elem], elem + 1), elem + 1);
+        elem++;
+    }
+}
+
+/**
+ * Copy the contents of one array into another. 
+ */
+void copyArray (const int source[], int size, int copy[])
+{
+    for (int i = 0; i < size; i++)
+    {
+        copy[i] = source[i];
+    }
+}
+
+
+int countRepetitions (const int arr[], int size, int elem)
+{
+    int count = 0;
+
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == elem)
+            count++;
+    }
+
+    return count;
+}
+
+/**
+ * Find the first instance *forward* of an element which is not a repetition of the current one.
+ * 
+ * @param current The starting index
+ * 
+ * @return The first index forward which is not a repetition of the current element.
+ * @return -1 if there is no such index after current one
+ */
+int findNextUnique (const int arr[], int size, int current)
+{
+    int nextUnique = -1;
+
+    for (int i = current + 1; i < size; i++)
+    {
+        if (arr[i] != arr[current])
+        {
+            nextUnique = i;
+            break;
+        }
+    }
+
+    return nextUnique;
+}
+
+/**
+ * Find the most repeated element in a *sorted* array. If there are two or more elements
+ * which have the same amount of repetitions, find the largest one.
+ * 
+ * @param rStart The start of the range to look in
+ * DEFAULT: 0
+ * 
+ * @return The value of the most repeated element in the array
+ */
+int findMostRepeated (const int arr[], int size, int rStart = 0)
+{
+    int mostRepeated = 0, mostReps = 0;
+    int currentIndex = rStart, currentReps = 0;
+
+    while (currentIndex < size && currentIndex != -1)
+    {
+        // Find the repetitions of the current element
+        currentReps = findNextUnique(arr, size, currentIndex) - currentIndex;
+        if (findNextUnique(arr, size, currentIndex) == -1)
+        {
+            currentReps = size - currentIndex;
+        }
+
+        if (currentReps > mostReps)
+        {
+            mostReps = currentReps;
+            mostRepeated = arr[currentIndex];
+        }
+        else if (currentReps == mostReps)
+        {
+            if (arr[currentIndex] > mostRepeated)
+            {
+                mostRepeated = arr[currentIndex];
+            }
+        }
+
+        currentIndex = findNextUnique(arr, size, currentIndex);
+    }
+
+    return mostRepeated;
+}
+
+
+void sortByRepetitions (int arr[], const int size)
+{
+    quicksort(arr, size);
+        
+    // Sort array
+    int currIndex = 0;
+        
+    while (currIndex != -1)
+    {
+        int currMostRepeated = findMostRepeated(arr, size, currIndex);
+
+        moveElement(arr, size, search(arr, size, currMostRepeated), currIndex);
+        gatherAllRepetitions(arr, size, currIndex);
+        
+        currIndex = findNextUnique(arr, size, currIndex);
+    }
+}
+
+/**
+ * Check if array is ZigZag.
+ */
+bool isZigZag (const int arr[], int size)
+{
+    if (size <= 2)
+        return true;
+
+    for (int i = 1; i < (size - 1); i++)
+    {
+        if ((arr[i] == arr[i + 1]) || (arr[i] == arr[i - 1]))
+        {
+            return false;
+        }
+        else if ((arr[i] > arr[i - 1] && arr[i] < arr[i + 1]) ||
+                 (arr[i] < arr[i - 1] && arr[i] > arr[i + 1]))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -134,23 +291,26 @@ void quicksort (int arr[], int size, int lowerLim = 0)
  * 
  * @return false if attempt was not successful
  */
-bool makeZigZag (int arr[], int size)
+bool makeZigZag (int arr[], const int size)
 {
-    quicksort(arr, size);
+    sortByRepetitions(arr, size);
+    printArray(arr, size); std::cout << endl;
 
-    int front = 0, back = size - 1;
-    while (front < back)
+    for (int i = 1; i < (size - 1); i += 2)
     {
-        moveElement(arr, size, back, front + 1);
-        front += 2;
+        moveElement(arr, size, size - 1, i);
     }
 
+    printArray(arr, size); std::cout << endl;
+    
     if (isZigZag(arr, size))
     {
         return true;
     }
-
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 // ---------- MAIN ----------
