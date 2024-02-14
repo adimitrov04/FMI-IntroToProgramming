@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include "arrmanip.h"
 
-using std::cin;
-using std::cout;
+using namespace arrio;
 using std::endl;
 
 /* TASK DESCRIPTION:
@@ -12,82 +12,62 @@ by removing elements form A.
 --------------------------------------------
 */
 
-const int MAX_SIZE = 1000;
-
-void readArray (int arr[], int size)
-{
-    for (int i = 0; i < size; i++)
-    {
-        cin >> arr[i];
-    }
-    
-}
-
-void printArray (int arr[], int size)
-{
-    for (int i = 0; i < size; i++)
-    {
-        cout << arr[i] << ' ';
-    }
-    
-}
-
-int binarySearch (int arr[], int size, int search)
-{
-    int lowLim = 0, highLim = size - 1, middle;
-
-    while (lowLim <= highLim)
-    {
-        middle = lowLim + ((highLim - lowLim) / 2);
-
-        if (search == middle)
-        {
-            return middle;
-        }
-
-        if (search > middle)
-        {
-            lowLim = middle + 1;
-        }
-        else
-        {
-            highLim = middle - 1;
-        }
-    }
-
-    return -1;
-}
-
 /**
  * Take two arrays as input and determine whether
  * 
  * @param sizeMain Size of the main array (sizeMain should be >= to subSize)
  * although reversing the order wont break the function.
  * 
- * @return true when all elements within subArr are found inside mainArr;
- * false if otherwise
+ * @return true when all elements within subArr are found inside mainArr and are in
+ * the same order; false otherwise
  */
-bool isSubset (int mainArr[], int mainSize, int subArr[], int subSize)
+bool isOrderedSubset (const int* mainArr, const int mainSize, const int* subArr, const int subSize)
 {
-    for (int i  = 0; i < subSize; i++)
+    if (subSize == 1)
     {
-        if (binarySearch(mainArr, mainSize, subArr[i]) == -1)
+        if (search(mainArr, mainSize, *subArr) == -1)
         {
             return false;
         }
+        else
+        {
+            return true;
+        }
     }
 
-    return true;
+    if (search(mainArr, mainSize, *subArr) == -1)
+        return false;
+
+    int offset = search(mainArr, mainSize, *subArr);
+
+    return isOrderedSubset(mainArr + (offset + 1), mainSize - (offset + 1), subArr + 1, subSize - 1);
 }
 
 int main ()
 {
-    int arrA[MAX_SIZE] = {0,}, sizeA;
-    int arrB[MAX_SIZE] = {0,}, sizeB;
+    int* arrA = nullptr;
+    int* arrB = nullptr;
+    int sizeA = 0, sizeB = 0;
 
-    cin >> sizeA;
+    std::cin >> sizeA;
+    arrA = new (std::nothrow) int[sizeA];
+    if (!arrA)
+        return -5;
     readArray(arrA, sizeA);
+
+    std::cin >> sizeB;
+    arrB = new (std::nothrow) int[sizeB];
+    if (!arrB)
+    {
+        delete[] arrA;
+        return -5;
+    }
     readArray(arrB, sizeB);
+
+    std::cout << isOrderedSubset(arrA, sizeA, arrB, sizeB) << endl;
+
+    delete[] arrA;
+    delete[] arrB;
 
     return 0;
 }
